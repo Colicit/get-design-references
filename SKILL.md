@@ -64,4 +64,5 @@ If auth is unresolved, stop and ask the user to set `GET_DESIGN_REFERENCES_API_K
 4. Identify the artifact type that matches the need (primitive, pattern, view, or design system).
 5. Craft a concise `functional_description` (what it does) and `style_description` (how it looks).
 6. Run the relevant `gdr ... --json` command. Inspect returned code/images/tokens.
-7. Optionally, use `gdr collections get --collection-id <uuid> --json` to discover related artifacts from the same collection.
+7. Read [interpretation.md](interpretation.md) and apply its fidelity-first approach to reference usage.
+8. Optionally, use `gdr collections get --collection-id <uuid> --json` to discover related artifacts from the same collection.
