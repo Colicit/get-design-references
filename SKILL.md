@@ -1,20 +1,20 @@
 ---
 name: get-design-references
-description: Search and retrieve highly curated frontend design references for the web. Use this skill when building (1) primitive components like buttons, inputs, and date pickers, (2) compositional patterns like cards, sidebars, and page sections, (3) complete views like hero sections, pricing pages, or analytics dashboards, and (4) design systems with cohesive color palettes, font pairings, and token values.
+description: Search and retrieve highly curated frontend design references. Use this skill when creating or refactoring components, pages, or design systems.
 ---
 
 # Get Design References (GDR)
 
-Semantically search Colicit's curated database of frontend design references. Returns grounded React + Tailwind code samples and images that can be adapted to any framework or style system.
+Semantically search Colicit's curated database of frontend design references. Returns React + Tailwind code snippets and labelled images.
 
 ## Artifact Types
 
 - **Primitives** — Atomic components (buttons, inputs, toggles, date pickers).
-- **Patterns** — Compositions of primitives (cards, sidebars, navbars, page sections).
-- **Views** — Complete layouts (hero sections, pricing pages, dashboards).
+- **Patterns** — Compositions of primitives (card, sidebar, navbar).
+- **Views** — Complete layouts (hero section, pricing page, analytics dashboard).
 - **Design Systems** — Cohesive token sets (color palettes, font pairings, spacing scales).
 
-Artifacts from the same source share a `collection_id`. Use the collections endpoint to explore related artifacts.
+Artifacts from the same source share a `collection_id`.
 
 ## Search Modes
 
@@ -54,7 +54,7 @@ gdr auth doctor --json
 gdr auth status --json
 ```
 
-If auth is unresolved, stop and ask the user to set `GET_DESIGN_REFERENCES_API_KEY` in environment or add it to `.env.local`/`.env`. Do not extract secrets with `grep`/`cut` or print them to logs.
+If auth is unresolved, stop and ask the user to set `GET_DESIGN_REFERENCES_API_KEY` in environment or add it to `.env.local`/`.env`. They can go to `https://www.colicit.com` to get their API key. Do not extract secrets with `grep`/`cut` or print them to logs.
 
 ## Workflow
 
