@@ -56,13 +56,26 @@ gdr auth status --json
 
 If auth is unresolved, stop and ask the user to set `GET_DESIGN_REFERENCES_API_KEY` in environment or add it to `.env.local`/`.env`. They can go to `https://www.colicit.com` to get their API key. Do not extract secrets with `grep`/`cut` or print them to logs.
 
+## Ephemeral Reference Workspace
+
+Use a temporary `.references` directory in the project root for each retrieval run.
+
+- Start each run with `rm -rf .references && mkdir -p .references` to clear stale artifacts.
+- Store raw CLI responses as JSON in `.references` (for example `.references/results.json`).
+- Extract reusable reference code snippets as `.references/ref-<n>.txt` (use `.txt`, not `.tsx`).
+- Add `trap 'rm -rf .references' EXIT INT TERM HUP` so cleanup runs automatically.
+- Before finishing the task, ensure `.references` is removed.
+
 ## Workflow
 
 1. Ensure `gdr` CLI is available (`gdr --help` or use `npx -y -p @colicit/gdr-cli@latest gdr ...`).
 2. Run from the project root (or pass `--project-dir <path>`), then run `gdr auth status --json`.
 3. Read [reference.md](reference.md) for command examples.
-4. Identify the artifact type that matches the need (primitive, pattern, view, or design system).
-5. Craft a concise `functional_description` (what it is / what it does) and `style_description` (how it looks).
-6. Run the relevant `gdr ... --json` command.
-7. Read [interpretation.md](interpretation.md) and apply its fidelity-first approach to reference usage.
-8. Optionally, use `gdr collections get --collection-id <uuid> --json` to discover related artifacts from the same collection.
+4. Initialize ephemeral workspace: `rm -rf .references && mkdir -p .references` and `trap 'rm -rf .references' EXIT INT TERM HUP`.
+5. Identify the artifact type that matches the need (primitive, pattern, view, or design system).
+6. Craft a concise `functional_description` (what it is / what it does) and `style_description` (how it looks).
+7. Run the relevant `gdr ... --json` command and save output to `.references/results.json`.
+8. Extract each returned `.code` field into `.references/ref-<n>.txt` for repeated reference as you work on the task.
+9. Read [interpretation.md](interpretation.md) and apply its fidelity-first approach to reference usage.
+10. Optionally, use `gdr collections get --collection-id <uuid> --json` to discover related artifacts from the same collection.
+11. Remove `.references` before finishing the task (trap should also handle this automatically).

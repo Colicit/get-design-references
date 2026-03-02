@@ -49,6 +49,42 @@ run_gdr auth status --json
 
 All examples below use `--json` for deterministic machine-readable output.
 
+## Ephemeral `.references` workspace
+
+For each agent run, create a temporary project-root workspace for reusable references and delete it when done.
+Use the same pattern for any `gdr` command by redirecting output to `.references/<name>.json`.
+
+```bash
+# Always start clean
+rm -rf .references
+mkdir -p .references
+
+# Auto-cleanup on shell exit/interruption
+trap 'rm -rf .references' EXIT INT TERM HUP
+```
+
+### Save and reuse reference code as `.txt`
+
+```bash
+run_gdr views search \
+  --functional "analytics dashboard with charts and KPI cards" \
+  --style "dark theme, neon accents, data-dense" \
+  --n 2 \
+  --json > .references/results.json
+
+# Extract each returned `code` field into `.txt` files.
+node -e 'const fs=require("fs");const data=JSON.parse(fs.readFileSync(".references/results.json","utf8"));data.forEach((item,i)=>{if(item&&typeof item.code==="string"&&item.code.trim())fs.writeFileSync(`.references/ref-${i}.txt`,item.code);});'
+
+# Reuse during task:
+# .references/ref-0.txt
+# .references/ref-1.txt
+
+# Optional explicit cleanup at the end (trap also handles this):
+rm -rf .references
+```
+
+Use `.txt` for extracted snippets to avoid TypeScript/ESLint/import-resolution noise from `.tsx` temporary files.
+
 ---
 
 ## primitives
